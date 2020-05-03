@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "To DeepL",
+  "version": "0.1.0",
+  "description": "Translate selected text in new tab with DeepL",
+  "homepage_url": "https://github.com/rewkha/translate-by-extension",
+  "icons": {
+    "48": "icons/icon.svg"
+  },
+  "permissions": ["contextMenus", "storage"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "options_ui": {
+    "browser_style": true,
+    "page": "options/options.html",
+    "open_in_tab": false
+  }
+}
