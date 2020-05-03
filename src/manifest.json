@@ -3,7 +3,7 @@
   "name": "To DeepL",
   "version": "0.1.0",
   "description": "Translate selected text in new tab with DeepL",
-  "homepage_url": "https://github.com/rewkha/translate-by-extension",
+  "homepage_url": "https://github.com/rewkha/firefox-to-deepl",
   "icons": {
     "48": "icons/icon.svg"
   },
