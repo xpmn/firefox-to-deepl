@@ -18,14 +18,14 @@ browser.contextMenus.create({
 browser.contextMenus.onClicked.addListener((info, tab) => {
   switch (info.menuItemId) {
     case 'translate-text':
-      const translateURL = `${deeplURL + defaultLang}/${encodeURI(info.selectionText)}`;
-      const querying = browser.tabs.query({currentWindow: true, active: true});
+      const translateURL = `${deeplURL + defaultLang}/${encodeURIencodeURIComponent(info.selectionText)}`;
+      const querying = browser.tabs.query({ currentWindow: true, active: true });
       querying.then((current) => {
         if (current.length) {
           browser.tabs.create({
             url: translateURL,
             active: true,
-            index: current[0].index+1,
+            index: current[0].index + 1,
             openerTabId: current[0].id
           });
         } else {

@@ -12,7 +12,7 @@ document.getElementById('defaultLang').addEventListener('click', (e) => {
       settings: {
         defaultLang: e.target.value
       }
-    });  
+    });
   }
 });
 
