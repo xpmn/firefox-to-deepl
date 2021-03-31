@@ -18,7 +18,7 @@ browser.contextMenus.create({
 browser.contextMenus.onClicked.addListener((info, tab) => {
   switch (info.menuItemId) {
     case 'translate-text':
-      const translateURL = `${deeplURL + defaultLang}/${encodeURIencodeURIComponent(info.selectionText)}`;
+      const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(info.selectionText)}`;
       const querying = browser.tabs.query({ currentWindow: true, active: true });
       querying.then((current) => {
         if (current.length) {
