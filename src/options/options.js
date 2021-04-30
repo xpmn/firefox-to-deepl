@@ -7,7 +7,7 @@ function renderOptions() {
 
 document.getElementById('defaultLang').addEventListener('click', (e) => {
   console.log(e.target.value);
-  if (['en', 'de', 'fr', 'es', 'ja', 'pt-PT', 'pt-BR', 'it', 'nl', 'pl', 'ru', 'zh'].indexOf(e.target.value) !== -1) {
+  if (['en', 'bg', 'da', 'de', 'es', 'et', 'el', 'fr', 'fi', 'hu', 'it', 'ja', 'lv,lt', 'lt', 'nl', 'pl', 'pt-PT', 'pt-BR', 'ro', 'ru', 'sk', 'sl', 'sv', 'zh'].indexOf(e.target.value) !== -1) {
     browser.storage.local.set({
       settings: {
         defaultLang: e.target.value
