@@ -37,6 +37,21 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
   }
 });
 
+browser.commands.onCommand.addListener(async command => {
+  switch (command) {
+    case 'translate-text':
+      const { id, index } = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
+      const text = (await browser.tabs.executeScript(id, { code: 'getSelection()+""', }))[0];
+      const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(text)}`;
+      browser.tabs.create({
+        url: translateURL,
+        active: true,
+        index: index + 1,
+        openerTabId: id
+      });
+  }
+});
+
 getDefaultLang();
 
 browser.storage.onChanged.addListener(getDefaultLang);
