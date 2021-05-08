@@ -15,5 +15,10 @@
     "browser_style": true,
     "page": "options/options.html",
     "open_in_tab": false
+  },
+  "commands": {
+    "translate-text": {
+      "description": "Send the selected text to DeepL"
+    }
   }
 }
