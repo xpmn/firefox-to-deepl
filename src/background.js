@@ -18,7 +18,7 @@ browser.contextMenus.create({
 browser.contextMenus.onClicked.addListener((info, tab) => {
   switch (info.menuItemId) {
     case 'translate-text':
-      const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(info.selectionText)}`;
+      const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(info.selectionText).replaceAll("%2F", "\\%2F")}`;
       const querying = browser.tabs.query({ currentWindow: true, active: true });
       querying.then((current) => {
         if (current.length) {
@@ -42,7 +42,7 @@ browser.commands.onCommand.addListener(async command => {
     case 'translate-text':
       const { id, index } = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
       const text = (await browser.tabs.executeScript(id, { code: 'getSelection()+""', }))[0];
-      const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(text)}`;
+      const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(text).replaceAll("%2F", "\\%2F")}`;
       browser.tabs.create({
         url: translateURL,
         active: true,
