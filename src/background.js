@@ -1,4 +1,4 @@
-const deeplURL = "https://www.deepl.com/translator#en/"
+const deeplURL = "https://www.deepl.com/translator#null/"
 let defaultLang = "en"
 
 function getDefaultLang() {
