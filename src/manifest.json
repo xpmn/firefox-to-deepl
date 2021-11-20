@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "To DeepL",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Translate selected text in new tab with DeepL",
   "homepage_url": "https://github.com/rewkha/firefox-to-deepl",
   "icons": {
