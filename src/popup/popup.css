@@ -1,0 +1,62 @@
+body {
+    padding: 3rem;
+    width: 35rem;
+}
+
+p {
+    font-size: 1.5rem;
+}
+
+body:not(.result) #result{
+    display: none;
+}
+
+body:not(.error) #error{
+    display: none;
+}
+
+body.error #loader, body.result #loader{
+    display: none;
+}
+
+#loader {
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#loader div {
+    position: relative;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: conic-gradient(#FFF, #EEE);
+    animation: spinner;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+}
+
+#loader div::after {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    background-color: #FFF;
+    content: "";
+}
+
+#error {
+    color: #990000;
+}

@@ -20,5 +20,12 @@
     "translate-text": {
       "description": "Send the selected text to DeepL"
     }
+  },
+  "browser_action": {
+    "browser_style": true,
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "48": "icons/icon.svg"
+    }
   }
 }
