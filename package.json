@@ -1,0 +1,9 @@
+{
+  "name": "firefox-to-deepl",
+  "description": "Firefox extension. Highlight text on a web page and send it to DeepL ",
+  "repository": "https://github.com/rewkha/firefox-to-deepl",
+  "license": "MIT",
+  "dependencies": {
+    "@types/firefox-webext-browser": "^94.0.1"
+  }
+}
