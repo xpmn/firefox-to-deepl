@@ -12,7 +12,7 @@
 
 <body>
   <div id="options-content">
-    <label for="default_lang">
+    <label for="defaultLang">
       <span>Default language:</span>
       <select class="browser-style" name="default_lang" id="defaultLang">
         <option value="en" selected="">English</option>
@@ -42,8 +42,33 @@
         <option value="zh">简体中文 (simplified Chinese)</option>
       </select>
     </label>
+    <div>
+        <label>
+            <input type="checkbox" id="popupTranslation">
+            Activate popup translation
+        </label>
+    </div>
+    <fieldset>
+        <legend>DeepL API Settings</legend>
+        <p>For this feature you will need either a free or paid <a href="https://www.deepl.com/pro#developer">Deepl API account</a>.</p>
+        <label>
+            Your DeepL API Key
+            <input type="text" id="apiKey" style="display: block;">
+            <small><a href="https://www.deepl.com/de/pro-account/summary">Retrieve your API key here</a></small>
+        </label>
+        <div>
+            <input type="radio" id="free" name="apiType" value="free">
+            <label for="free"> DeepL API Free</label>
+            <input type="radio" id="pro" name="apiType" value="pro">
+            <label for="pro"> DeepL API Pro</label>
+        </div>
+        <small style="display:block;">This extension needs to use a different connection depending on your account type.</small>
+    </fieldset>
   </div>
-  <script type="module" src="options.js"></script>
+  <script src="../lib/settings.js"></script>
+  <script src="../lib/options.js"></script>
+
+  <script src="options.js"></script>
 </body>
 
 </html>
