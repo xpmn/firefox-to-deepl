@@ -1,6 +1,6 @@
 browser.runtime.sendMessage("handshake");
 
-browser.runtime.onMessage.addListener(function(message,sender,sendResponse){
+browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     document.body.classList.remove("error");
     document.body.classList.remove("result");
 
@@ -16,5 +16,4 @@ browser.runtime.onMessage.addListener(function(message,sender,sendResponse){
             document.body.classList.add("error");
             document.querySelector("#error p").innerHTML = error.toString();
         })
-
 });

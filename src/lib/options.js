@@ -2,6 +2,12 @@ async function getStore() {
     return browser.storage.local.get('settings');
 }
 
+/**
+ * Get an option by its name. Will return the application defaults
+ * if user has not set that option
+ * @param {string} name
+ * @return {Promise<null|*>}
+ */
 async function getOption(name) {
     let store = await getStore();
 
@@ -16,6 +22,12 @@ async function getOption(name) {
     return store.settings[name];
 }
 
+/**
+ * Set an option by its name.
+ * @param {string} name
+ * @param {*} value
+ * @return {Promise<void>}
+ */
 async function setOption(name, value) {
     let store = await getStore();
 

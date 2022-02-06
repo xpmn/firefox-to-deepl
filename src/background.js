@@ -25,6 +25,10 @@ browser.storage.onChanged.addListener(() => {
 
 reloadOptions();
 
+/**
+ * Open translation via popup
+ * @param {string|Promise} sourceText
+ */
 function translateInPopup(sourceText) {
     /**
      * Since the popup is not active at this time, sending messages to it
@@ -44,9 +48,9 @@ function translateInPopup(sourceText) {
          * The popup will open synchronously and then wait for sourceText to
          * resolve.
          */
-        if(typeof sourceText === "string") {
+        if (typeof sourceText === "string") {
             browser.runtime.sendMessage({sourceText: sourceText});
-        }else if(typeof sourceText.then !== "undefined") {
+        } else if (typeof sourceText.then !== "undefined") {
             sourceText.then((text) => {
                 browser.runtime.sendMessage({sourceText: text});
             })
@@ -60,6 +64,11 @@ function translateInPopup(sourceText) {
     browser.browserAction.openPopup();
 }
 
+/**
+ * Get the full URL of the DeepL translation interface
+ * @param {string} sourceText
+ * @return {string}
+ */
 function getTranslateBrowserUrl(sourceText) {
     let encodedSourceText = encodeURIComponent(sourceText)
         .replaceAll("%2F", "\\%2F")
@@ -69,12 +78,16 @@ function getTranslateBrowserUrl(sourceText) {
     return `${deeplURL + defaultLang}/${encodedSourceText}`;
 }
 
+/**
+ * Open translation in a new tab
+ * @param {string|Promise} sourceText
+ * @return {Promise<void>}
+ */
 async function translateInTab(sourceText) {
     let current = await browser.tabs.query({currentWindow: true, active: true});
 
+    // Make sure that sourceText is resolved. Will do nothing for strings, will resolve Promises.
     sourceText = await sourceText;
-
-    console.log(sourceText);
 
     let translateUrl = getTranslateBrowserUrl(sourceText);
 
@@ -92,6 +105,12 @@ async function translateInTab(sourceText) {
     }
 }
 
+/**
+ * Start the translation process by getting user options that
+ * decide whether to use popup or tab translation and then
+ * executing according to that preference
+ * @param {string|Promise} sourceText
+ */
 function startTranslation(sourceText) {
     if (popupTranslation) {
         translateInPopup(sourceText);
@@ -115,6 +134,13 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
 
 browser.commands.onCommand.addListener(async command => {
     if (command === "translate-text") {
+        /**
+         * Since calling browserAction.openPopup needs to be a direct (sync)
+         * action following a user action handler, async would break that
+         * functionality. So we're creating a Promise here and will just
+         * pass it on for later resolve.
+         * @type {Promise<unknown>}
+         */
         let text = new Promise((resolve) => {
             browser.tabs.query({active: true, currentWindow: true})
                 .then((tabs) => {

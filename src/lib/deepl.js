@@ -1,13 +1,21 @@
+/**
+ * Call the DeepL API to translate the given source text,
+ * respecting user settings about preferred target language
+ * if no target language was given directly.
+ * @param sourceText
+ * @param targetLanguage
+ * @return {Promise<{text: *, sourceLanguage: *}>}
+ */
 async function translate(sourceText, targetLanguage) {
     let apiUrl = "https://api.deepl.com/v2/translate";
 
-    if(await getOption("apiType") === "free") {
+    if (await getOption("apiType") === "free") {
         apiUrl = "https://api-free.deepl.com/v2/translate";
     }
 
     let apiKey = await getOption("apiKey");
 
-    if(typeof targetLanguage !== "string") {
+    if (typeof targetLanguage !== "string") {
         targetLanguage = await getOption("defaultLang");
     }
 
@@ -28,7 +36,7 @@ async function translate(sourceText, targetLanguage) {
 
     const data = await response.json();
 
-    if(typeof data.translations === 'undefined'
+    if (typeof data.translations === 'undefined'
         || typeof data.translations[0] === 'undefined'
         || typeof data.translations[0].detected_source_language !== 'string'
         || typeof data.translations[0].text !== 'string') {
