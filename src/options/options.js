@@ -16,7 +16,7 @@ document.getElementById('defaultLang').addEventListener('click', (e) => {
     setOption("defaultLang", e.target.value);
 });
 
-document.getElementById('popupTranslation').addEventListener('click', (e) => {
+document.getElementById('popupTranslation').addEventListener('change', (e) => {
     setOption("popupTranslation", e.target.checked);
 });
 
