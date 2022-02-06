@@ -37,7 +37,21 @@ function translateInPopup(sourceText) {
             // Not our handshake
             return;
         }
-        browser.runtime.sendMessage({sourceText: sourceText});
+
+        /**
+         * To go around the limitations we have regarding opening popups after
+         * async processes (see above), sourceText can also be given as a Promise.
+         * The popup will open synchronously and then wait for sourceText to
+         * resolve.
+         */
+        if(typeof sourceText === "string") {
+            browser.runtime.sendMessage({sourceText: sourceText});
+        }else if(typeof sourceText.then !== "undefined") {
+            sourceText.then((text) => {
+                browser.runtime.sendMessage({sourceText: text});
+            })
+        }
+
         browser.runtime.onMessage.removeListener(messageHandler);
     }
 
@@ -56,8 +70,13 @@ function getTranslateBrowserUrl(sourceText) {
 }
 
 async function translateInTab(sourceText) {
-    let translateUrl = getTranslateBrowserUrl(sourceText);
     let current = await browser.tabs.query({currentWindow: true, active: true});
+
+    sourceText = await sourceText;
+
+    console.log(sourceText);
+
+    let translateUrl = getTranslateBrowserUrl(sourceText);
 
     if (current.length) {
         browser.tabs.create({
@@ -95,16 +114,17 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 browser.commands.onCommand.addListener(async command => {
-    switch (command) {
-        case 'translate-text':
-            const {id, index} = (await browser.tabs.query({active: true, currentWindow: true}))[0];
-            const text = (await browser.tabs.executeScript(id, {code: 'getSelection()+""',}))[0];
-            const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(text).replaceAll("%2F", "\\%2F").replaceAll("%7C", "\\%7C").replaceAll("%5C", "%5C%5C")}`;
-            browser.tabs.create({
-                url: translateURL,
-                active: true,
-                index: index + 1,
-                openerTabId: id
-            });
+    if (command === "translate-text") {
+        let text = new Promise((resolve) => {
+            browser.tabs.query({active: true, currentWindow: true})
+                .then((tabs) => {
+                    browser.tabs.executeScript(tabs[0].id, {code: 'getSelection()+""',})
+                        .then((text) => {
+                            resolve(text);
+                        })
+                })
+        })
+
+        startTranslation(text);
     }
 });
