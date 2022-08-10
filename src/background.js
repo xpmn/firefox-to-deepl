@@ -1,10 +1,17 @@
 const deeplURL = "https://www.deepl.com/translator#null/"
+const w = 940;
+const h = 650;
 let defaultLang = "en"
+let windowType = "popup"
 
-function getDefaultLang() {
-  browser.storage.local.get('settings').then((store) => {
-    if (store.settings && store.settings.defaultLang) {
-      defaultLang = store.settings.defaultLang
+function getDefaultSettings() {
+  browser.storage.local.get(['defaultLang', 'windowType']).then((store) => {
+    if (store.defaultLang) {
+      defaultLang = store.defaultLang
+    }
+
+    if (store.windowType) {
+      windowType = store.windowType
     }
   });
 }
@@ -21,7 +28,19 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
       const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(info.selectionText).replaceAll("%2F", "\\%2F").replaceAll("%7C", "\\%7C").replaceAll("%5C", "%5C%5C")}`;
       const querying = browser.tabs.query({ currentWindow: true, active: true });
       querying.then((current) => {
-        if (current.length) {
+        if (windowType === 'popup') {
+          const left = screen.width / 2 - w / 2;
+          const top = screen.height / 2 - h / 2;
+
+          browser.windows.create({
+            url: translateURL,
+            type: "popup",
+            width: w,
+            height: h,
+            left: left,
+            top: top,
+          });
+        } else if (current.length) {
           browser.tabs.create({
             url: translateURL,
             active: true,
@@ -43,15 +62,30 @@ browser.commands.onCommand.addListener(async command => {
       const { id, index } = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
       const text = (await browser.tabs.executeScript(id, { code: 'getSelection()+""', }))[0];
       const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(text).replaceAll("%2F", "\\%2F").replaceAll("%7C", "\\%7C").replaceAll("%5C", "%5C%5C")}`;
-      browser.tabs.create({
-        url: translateURL,
-        active: true,
-        index: index + 1,
-        openerTabId: id
-      });
+
+      if (windowType === 'popup') {
+        const left = screen.width / 2 - w / 2;
+        const top = screen.height / 2 - h / 2;
+
+        browser.windows.create({
+          url: translateURL,
+          type: "popup",
+          width: w,
+          height: h,
+          left: left,
+          top: top,
+        });
+      } else if (current.length) {
+        browser.tabs.create({
+          url: translateURL,
+          active: true,
+          index: index + 1,
+          openerTabId: id
+        });
+      }
   }
 });
 
-getDefaultLang();
+getDefaultSettings();
 
-browser.storage.onChanged.addListener(getDefaultLang);
+browser.storage.onChanged.addListener(getDefaultSettings);
