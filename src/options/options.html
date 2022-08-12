@@ -7,13 +7,17 @@
     #options-content {
       padding: 10px;
     }
+
+    select {
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 
 <body>
   <div id="options-content">
     <label for="default_lang">
-      <span>Default language:</span>
+      <label for="default_lang">Default language:</label>
       <select class="browser-style" name="default_lang" id="defaultLang">
         <option value="en" selected="">English</option>
         <option value="bg">Български</option>
@@ -41,7 +45,18 @@
         <option value="sv">Svenska</option>
         <option value="zh">简体中文 (simplified Chinese)</option>
       </select>
-    </label>
+
+      <fieldset>
+        <legend>Show translated text:</legend>
+        <div>
+          <input type="radio" id="popup" name="windowType" value="popup">
+          <label for="popup">Popup</label>
+        </div>
+        <div>
+          <input type="radio" id="tab" name="windowType" value="tab">
+          <label for="tab">New tab</label>
+        </div>
+    </fieldset>
   </div>
   <script type="module" src="options.js"></script>
 </body>
