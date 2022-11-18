@@ -1,4 +1,4 @@
-const deeplURL = "https://www.deepl.com/translator#null/"
+const deeplURL = "https://www.deepl.com/translator/q/auto/text/" 
 const w = 940;
 const h = 650;
 let defaultLang = "en"
