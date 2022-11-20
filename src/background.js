@@ -1,4 +1,5 @@
-const deeplURL = "https://www.deepl.com/translator/q/auto/"
+// const deeplURL = "https://www.deepl.com/translator/q/auto/"
+const deeplURL = "https://www.deepl.com/translator#null/"
 const w = 940;
 const h = 650;
 let defaultLang = "en"
@@ -25,7 +26,9 @@ browser.contextMenus.create({
 browser.contextMenus.onClicked.addListener((info, tab) => {
   switch (info.menuItemId) {
     case 'translate-text':
-      const translateURL = `${deeplURL}${encodeURIComponent(info.selectionText).replaceAll("%2F", "\\%2F").replaceAll("%7C", "\\%7C").replaceAll("%5C", "%5C%5C")}/${defaultLang}`;
+      const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(info.selectionText).replaceAll("%2F", "\\%2F").replaceAll("%7C", "\\%7C").replaceAll("%5C", "%5C%5C")}`;
+      // current deepl text from url ignore some encoded symbols
+      // const translateURL = `${deeplURL}${encodeURIComponent(info.selectionText).replaceAll("%2F", " ").replaceAll("%7C", " ").replaceAll("%5C", " ").replaceAll("%0A", " ")}/${defaultLang}`;
       const querying = browser.tabs.query({ currentWindow: true, active: true });
       querying.then((current) => {
         if (windowType === 'popup') {
