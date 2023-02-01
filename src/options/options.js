@@ -1,4 +1,46 @@
+// array of languages to populate the select element
+const languages = [
+  { name: "English", value: "en" },
+  { name: "Български", value: "bg" },
+  { name: "Čeština (Český)", value: "cs" },
+  { name: "Dansk", value: "da" },
+  { name: "Deutsch", value: "de" },
+  { name: "Español", value: "es" },
+  { name: "Eesti", value: "et" },
+  { name: "Ελληνικά", value: "el" },
+  { name: "Français", value: "fr" },
+  { name: "Suomi", value: "fi" },
+  { name: "Magyar nyelv", value: "hu" },
+  { name: "Bahasa Indonesia", value: "id" },
+  { name: "Italiano", value: "it" },
+  { name: "日本語 (Japanese)", value: "ja" },
+  { name: "한국어 (Korean)", value: "ko" },
+  { name: "Latviešu valoda", value: "lv" },
+  { name: "Lietuvių kalba", value: "lt" },
+  { name: "Norsk bokmål", value: "nb" },
+  { name: "Nederlands", value: "nl" },
+  { name: "Polski", value: "pl" },
+  { name: "Português", value: "pt-PT" },
+  { name: "Português (Brasil)", value: "pt-BR" },
+  { name: "Limba română", value: "ro" },
+  { name: "Русский (Russian)", value: "ru" },
+  { name: "Slovenský (Slovak)", value: "sk" },
+  { name: "Slovenski (Slovenian)", value: "sl" },
+  { name: "Svenska", value: "sv" },
+  { name: "Türkçe", value: "tr" },
+  { name: "Українська", value: "uk" },
+  { name: "简体中文 (simplified Chinese)", value: "zh" }
+];
+
 function renderOptions() {
+  const select = document.getElementById('defaultLang');
+  languages.forEach((lang) => {
+    const option = document.createElement('option');
+    option.value = lang.value;
+    option.text = lang.name;
+    select.appendChild(option);
+  });
+
   return browser.storage.local.get(['defaultLang', 'windowType']).then((store) => {
     document.getElementById('defaultLang').value = store.defaultLang || 'en';
 
@@ -9,8 +51,7 @@ function renderOptions() {
 }
 
 document.getElementById('defaultLang').addEventListener('click', (e) => {
-  console.log(e.target.value);
-  if (['en', 'bg', 'cs', 'da', 'de', 'es', 'et', 'el', 'fr', 'fi', 'hu', 'it', 'id', 'ja', 'ko', 'lv', 'lt', 'nb', 'nl', 'pl', 'pt-PT', 'pt-BR', 'ro', 'ru', 'sk', 'sl', 'sv', 'tr', 'uk', 'zh'].indexOf(e.target.value) !== -1) {
+  if (languages.some((lang) => lang.value === e.target.value)) {
     browser.storage.local.set({
       defaultLang: e.target.value
     });
