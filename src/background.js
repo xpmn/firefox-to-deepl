@@ -63,7 +63,7 @@ browser.commands.onCommand.addListener(async command => {
   switch (command) {
     case 'translate-text':
       const { id, index } = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
-      const text = (await browser.tabs.executeScript(id, { code: 'getSelection()+""', }))[0];
+      const text = (await browser.tabs.executeScript(id, { code: 'getSelection()+"" || (document.activeElement?.value?.substring(document.activeElement.selectionStart,document.activeElement.selectionEnd) ?? "")', }))[0];
       const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(text).replaceAll("%2F", "\\%2F").replaceAll("%7C", "\\%7C").replaceAll("%5C", "%5C%5C")}`;
 
       if (windowType === 'popup') {
