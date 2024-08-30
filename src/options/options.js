@@ -1,6 +1,7 @@
 // array of languages to populate the select element
 const languages = [
   { name: "English", value: "en" },
+  { name: "اَلْعَرَبِيَّةُ", value: "ar" },
   { name: "Български", value: "bg" },
   { name: "Čeština (Český)", value: "cs" },
   { name: "Dansk", value: "da" },
@@ -29,7 +30,8 @@ const languages = [
   { name: "Svenska", value: "sv" },
   { name: "Türkçe", value: "tr" },
   { name: "Українська", value: "uk" },
-  { name: "简体中文 (simplified Chinese)", value: "zh" }
+  { name: "简体中文 (simplified Chinese)", value: "zh-hans" },
+  { name: "繁體中文 (traditional Chinese)", value: "zh-hant" }
 ];
 
 function renderOptions() {
