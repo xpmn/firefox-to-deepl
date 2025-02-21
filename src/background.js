@@ -1,6 +1,6 @@
 // const deeplURL = "https://www.deepl.com/translator/q/auto/"
 const deeplURL = "https://www.deepl.com/translator#en/"
-const w = 940;
+let w = 940;
 const h = 650;
 let defaultLang = "en"
 let windowType = "popup"
@@ -32,7 +32,14 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
       const querying = browser.tabs.query({ currentWindow: true, active: true });
       querying.then((current) => {
         if (windowType === 'popup') {
-          const left = screen.width / 2 - w / 2;
+          // give popup window more space if screen is wide,
+          // so the translated text is along side with the original text
+          if (screen.width >= 1200) {
+            w = 1200;
+          } else {
+            w = screen.width;
+          }
+          const left = (screen.width - w) / 2;
           const top = screen.height / 2 - h / 2;
 
           browser.windows.create({
@@ -67,7 +74,14 @@ browser.commands.onCommand.addListener(async command => {
       const translateURL = `${deeplURL + defaultLang}/${encodeURIComponent(text).replaceAll("%2F", "\\%2F").replaceAll("%7C", "\\%7C").replaceAll("%5C", "%5C%5C")}`;
 
       if (windowType === 'popup') {
-        const left = screen.width / 2 - w / 2;
+        // give popup window more space if screen is wide,
+        // so the translated text is along side with the original text
+        if (screen.width >= 1200) {
+          w = 1200;
+        } else {
+          w = screen.width;
+        }
+        const left = (screen.width - w) / 2;
         const top = screen.height / 2 - h / 2;
 
         browser.windows.create({
